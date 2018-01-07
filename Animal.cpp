@@ -24,7 +24,7 @@ void Animal::makeAnimal(int t, int i, int j) {
 char Animal::showAnimal()
 {
 	if (type == 0)
-		return '-';
+		return ' ';
 	if (type == 1)
 		return 'F';
 	if (type == 2)

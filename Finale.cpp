@@ -13,8 +13,15 @@ int fishAlive = 0;
 int sharkAlive = 0;
 int moves = 0;
 
+void ClearScreen()
+	{
+	int n;
+	for (n = 0; n < 10; n++)
+		printf( "\n\n\n\n\n\n\n\n\n\n" );
+	}
+
 void moveShark(int i, int j) {
-	system("clear");
+
 	//pick a random adjacent square to move into-------------------------------
 	int a = i - 1;
 	int b = j - 1;
@@ -64,7 +71,6 @@ void moveShark(int i, int j) {
 		}
 	}
 
-
 	if (foundFish == 0) {
 		for (int pos = newLoc; pos < 7; pos++) {
 			x = temp[pos].x;
@@ -90,8 +96,8 @@ void moveShark(int i, int j) {
 		y = i;
 		x = j;
 	}
-	//------------------------------------------------------------------------------------------
 
+	//------------------------------------------------------------------------------------------
 
 	if (ocean[i][j].turn > 0 && ocean[i][j].turn % 4 == 0)
 	{
@@ -189,6 +195,7 @@ void moveFish(int i, int j) {
 }
 
 void populateMap() {
+		printf("\033[44m\033[44m\n");
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
 			map[i][j] = 0;
@@ -198,7 +205,8 @@ void populateMap() {
 }
 
 void displayMap() {
-	system("clear");
+
+	ClearScreen();
 	int fishCount = 0;
 	int sharkCount = 0;
 	for (int i = 0; i < rows; ++i) {
@@ -206,7 +214,6 @@ void displayMap() {
 			cout << ocean[i][j].showAnimal() << " ";
 			if (ocean[i][j].type == 1) {
 				fishCount++;
-
 			}
 			if (ocean[i][j].type == 2) {
 				sharkCount++;
@@ -217,7 +224,7 @@ void displayMap() {
 	fishAlive = fishCount;
 	sharkAlive = sharkCount;
 
-	cout << "Fish(-): " << fishCount << "        Sharks(&): " << sharkCount << "      Turns: " << moves << endl;
+	cout << "Fish(F): " << fishCount << "        Sharks(S): " << sharkCount << "      Turns: " << moves << endl;
 }
 
 void checkOcean() {
@@ -229,7 +236,6 @@ void checkOcean() {
 			if (ocean[i][j].type == 1 && ocean[i][j].moved == 0) {
 				moveFish(i, j);
 			}
-
 		}
 	}
 	moves++;
@@ -242,17 +248,14 @@ void checkOcean() {
 			if (ocean[i][j].type == 1) {
 				ocean[i][j].moved = 0;
 			}
-
 		}
 	}
 }
 
 int main()
 {
-	//Creating a map already populated with some sharks and fish
 	populateMap();
 
-	//Cost of overhead for parallelizing this segment produces a diminishing return
 	for (int i = 15; i < 20; i++)
 		for (int j = 10; j < 15; j++) {
 			ocean[i][j].makeAnimal(2, i, j);
@@ -267,10 +270,6 @@ int main()
 			ocean[i][j].makeAnimal(1, i, j);
 		}
 
-	for (int i = 5; i < 10; i++)
-		for (int j = 20; j < 25; j++) {
-			ocean[i][j].makeAnimal(1, i, j);
-		}
 	for (int i = 20; i < 25; i++)
 		for (int j = 20; j < 25; j++) {
 			ocean[i][j].makeAnimal(1, i, j);
@@ -278,7 +277,6 @@ int main()
 
 	//---------------------------------------------------------------------------
 
-	clock_t tStart = clock();
 	displayMap();
 	cin.get();
 	while (fishAlive > 0 && sharkAlive > 0)
@@ -286,7 +284,6 @@ int main()
 		checkOcean();
 		displayMap();
 		cin.get();
-		system("clear");
 	}
 
 	displayMap();

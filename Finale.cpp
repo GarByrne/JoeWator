@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 #include "Animal.h"
 
 using namespace std;
@@ -195,7 +196,8 @@ void moveFish(int i, int j) {
 }
 
 void populateMap() {
-		printf("\033[44m\033[44m\n");
+	printf("\033[44m\033[44m\n");
+	#pragma omp parallel for
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
 			map[i][j] = 0;
@@ -228,6 +230,7 @@ void displayMap() {
 }
 
 void checkOcean() {
+	#pragma omp parallel for
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
 			if (ocean[i][j].type == 2 && ocean[i][j].moved == 0) {
@@ -239,7 +242,8 @@ void checkOcean() {
 		}
 	}
 	moves++;
-
+	
+	#pragma omp parallel for
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
 			if (ocean[i][j].type == 2) {
